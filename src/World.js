@@ -9,6 +9,7 @@ class World {
     this.entities = [new Player(0,0,16)]
     this.history = ['You enter the dungeon','--------- ']
     this.worldmap = new Array(this.width);
+    this.floor = 0
     for (let x = 0; x < this.width; x++) {
       this.worldmap[x] = new Array(this.height);
     }
@@ -23,6 +24,25 @@ class World {
   }
   add(entity){
     this.entities.push(entity)
+  }
+  useItem(item) {
+    this.addToHistory(`Used a ${this.player.inventory[item].attributes.name}`)
+    this.player.useItem(item)
+  }
+  levelUpMonsters(){
+    this.entities.forEach(element => { if(element.attributes.type==="Monster"){
+      
+      element.attributes.health *=3 
+    element.attributes.attack *=2
+    element.attributes.exp +=2
+    
+    }
+    });
+  }
+
+  checkForMonsters(){
+    this.entities.forEach(element => { if(element.attributes.type==="Monster"){
+      return true}})
   }
   remove(entity){
     this.entities = this.entities.filter(e => e !==entity)
@@ -47,12 +67,13 @@ class World {
       tempPlayer.move(dx,dy)
       let entity = this.getEntityAtLocation(tempPlayer.x,tempPlayer.y)
       if(entity){
-        console.log(entity)
+  
         entity.action('bump',this)
         return  
       }
       if(this.isWall(tempPlayer.x, tempPlayer.y)){
           console.log('blocked')
+          
       }else {
       this.player.move(dx,dy)
       }
@@ -95,6 +116,7 @@ class World {
       this.tilesize
     );
   }
+  
   addToHistory(history){
     this.history.push(history)
     if(this.history.length >8) this.history.shift()

@@ -7,7 +7,6 @@ class Entity {
     }
 
     action(verb,world){
-        console.log(verb)
     }
     draw(context){
         context.fillStyle = this.attributes.color || 'white'

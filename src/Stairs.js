@@ -7,7 +7,7 @@ class Stairs extends Entity {
         color: 'Black',
         ascii: '>',
         offset: {x:2,y:2},
-        floor: 1
+        
     }
     action(verb,world){
         if(verb === 'bump'){
@@ -19,9 +19,15 @@ class Stairs extends Entity {
             world.entities = world.entities.filter(e=> e === world.player)
             let spawner = new Spawner(world)
             spawner.spawnLoot(10)
-            spawner.spawnMonsters(7+ this.attributes.floor)
+            spawner.spawnMonsters(7+ world.floor)
+            if (world.floor> 0 && (world.floor+1)%3 ===0){
+                world.levelUpMonsters()
+            }
             spawner.spawnStairs()
-            this.attributes.floor = this.attributes.floor + 1
+            
+            console.log(this.attributes)
+        }else {
+            world.addToHistory("There are still monsters here please eliminate")
         }
     }
 }
