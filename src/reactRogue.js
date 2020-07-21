@@ -1,6 +1,6 @@
 import React,{useRef,useEffect,useState} from 'react';
 import InputManager from './InputManager'
-
+import Card from '@material-ui/core/Card'
 import World from './World.js'
 import Spawner from './Spawner.js'
 
@@ -64,13 +64,18 @@ height={height* tilesize}
 style={{border: '1px solid',backgroundColor: 'dimgrey'}}
 >
 
-</canvas>)
+</canvas>
+<Card>
 <p>{world.floor}</p>
-<ul>{world.player.inventory.map((item,index)=>(<li key={index}>{item.attributes.name}<button value={index}  onClick={handleUse}>use</button><button>drop</button></li>))}
-</ul>
+
 
 <ul>{world.history.map((item,index)=>(<li key={index}>{item}</li>))}
 </ul>
+</Card>
+<Card>
+<ul>{world.player.inventory.map((item,index)=>(<li key={index}>{item.attributes.name}<button value={index}  onClick={handleUse}>use</button><button>drop</button></li>))}
+</ul>
+</Card>
 </>)
 }
 
